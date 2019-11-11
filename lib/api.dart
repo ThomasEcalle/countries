@@ -8,7 +8,6 @@ import 'country.dart';
 
 class Api {
   static Future<List<Question>> getAll() async {
-    await Future.delayed(Duration(seconds: 10));
     try {
       final Response response =
           await Dio().get("https://restcountries.eu/rest/v2/all?fields=name;capital;");
