@@ -21,9 +21,6 @@ class Api {
       c.shuffle();
       capitals.shuffle();
 
-      print("null : ${capitals.where((c) => c == null)}");
-      print("empty : ${capitals.where((c) => c.isEmpty)}");
-
       final Queue<Country> countries = Queue();
 
       countries.addAll(c.where((country) => country.capital.isNotEmpty));
@@ -36,12 +33,10 @@ class Api {
 
         for (int i = 0; i < 3; i++) {
           final String capital = capitals[Random().nextInt(capitals.length - 1)];
-          print("ADDING $capital");
           generatedPossibilities.add(capital);
         }
 
         generatedPossibilities.shuffle();
-        print("possibilities = $generatedPossibilities");
 
         questions.add(Question(
           countryName: country.name,

@@ -65,55 +65,56 @@ class _QuizState extends State<Quiz> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            "Score $score / ${questions.length}",
-            style: Theme.of(context).textTheme.title.copyWith(color: Colors.white),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          currentQuestionIndex >= questions.length
-              ? Column(
-                  children: <Widget>[
-                    Text(
-                      "finis",
-                      style: Theme.of(context).textTheme.title.copyWith(color: Colors.white),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    RaisedButton(
-                      child: Text("Refaire"),
-                      onPressed: () {
-                        _replay();
-                      },
-                    )
-                  ],
-                )
-              : Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    QuizTimer(
-                      timeInSeconds: timeLeftForCurrentQuestion,
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    QuestionItem(
-                      question: questions[currentQuestionIndex],
-                      onChoice: _onTap,
-                      currentPosition: currentQuestionIndex + 1,
-                      total: questions.length,
-                    ),
-                  ],
-                ),
-        ],
-      )),
+    return Center(
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              "Score $score / ${questions.length}",
+              style: Theme.of(context).textTheme.title.copyWith(color: Colors.white),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            currentQuestionIndex >= questions.length
+                ? Column(
+                    children: <Widget>[
+                      Text(
+                        "finis",
+                        style: Theme.of(context).textTheme.title.copyWith(color: Colors.white),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      RaisedButton(
+                        child: Text("Refaire"),
+                        onPressed: () {
+                          _replay();
+                        },
+                      )
+                    ],
+                  )
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      QuizTimer(
+                        timeInSeconds: timeLeftForCurrentQuestion,
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      QuestionItem(
+                        question: questions[currentQuestionIndex],
+                        onChoice: _onTap,
+                        currentPosition: currentQuestionIndex + 1,
+                        total: questions.length,
+                      ),
+                    ],
+                  ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -136,7 +137,7 @@ class QuestionItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * .5,
-      height: 400,
+      height: MediaQuery.of(context).size.height * .5,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
@@ -144,71 +145,74 @@ class QuestionItem extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text(
-              "$currentPosition / $total",
-              style: Theme.of(context).textTheme.headline,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "$currentPosition / $total",
+                  style: Theme.of(context).textTheme.headline,
+                ),
+                Text(
+                  "What is the capital of : ${question.countryName}",
+                  style: Theme.of(context).textTheme.headline,
+                ),
+              ],
             ),
-            Center(
+            SingleChildScrollView(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-                  Text(
-                    "What is the capital of : ${question.countryName}",
-                    style: Theme.of(context).textTheme.headline,
-                  ),
-                  Column(
+                  Wrap(
                     children: <Widget>[
-                      Wrap(
-                        children: <Widget>[
-                          Choice(
-                            choice: question.possibilities[0],
-                            onTap: () {
-                              if (onChoice != null) {
-                                onChoice(question.possibilities[0]);
-                              }
-                            },
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Choice(
-                            choice: question.possibilities[1],
-                            onTap: () {
-                              if (onChoice != null) {
-                                onChoice(question.possibilities[1]);
-                              }
-                            },
-                          ),
-                        ],
+                      Choice(
+                        choice: question.possibilities[0],
+                        onTap: () {
+                          if (onChoice != null) {
+                            onChoice(question.possibilities[0]);
+                          }
+                        },
                       ),
-                      Wrap(
-                        children: <Widget>[
-                          Choice(
-                            choice: question.possibilities[2],
-                            onTap: () {
-                              if (onChoice != null) {
-                                onChoice(question.possibilities[2]);
-                              }
-                            },
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Choice(
-                            choice: question.possibilities[3],
-                            onTap: () {
-                              if (onChoice != null) {
-                                onChoice(question.possibilities[3]);
-                              }
-                            },
-                          ),
-                        ],
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Choice(
+                        choice: question.possibilities[1],
+                        onTap: () {
+                          if (onChoice != null) {
+                            onChoice(question.possibilities[1]);
+                          }
+                        },
                       ),
                     ],
-                  )
+                  ),
+                  Wrap(
+                    children: <Widget>[
+                      Choice(
+                        choice: question.possibilities[2],
+                        onTap: () {
+                          if (onChoice != null) {
+                            onChoice(question.possibilities[2]);
+                          }
+                        },
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Choice(
+                        choice: question.possibilities[3],
+                        onTap: () {
+                          if (onChoice != null) {
+                            onChoice(question.possibilities[3]);
+                          }
+                        },
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -234,7 +238,16 @@ class Choice extends StatelessWidget {
     return Container(
       width: 250,
       child: RaisedButton(
-        child: Text(choice),
+        elevation: 1,
+        child: Text(
+          choice,
+          style: TextStyle(
+            fontSize: 18,
+            color: Colors.black54,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        color: Colors.white54,
         onPressed: () {
           if (onTap != null) {
             onTap();
